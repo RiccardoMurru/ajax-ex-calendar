@@ -11,8 +11,41 @@ body {
 .container {
     margin: 0 auto;
     text-align: center;
+    width: 1170px;
+}
+
+/* button style */
+.prev,
+.next {
+    width: 200px;
+    height: 30px;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: 200;
+}
+/* calendar style */
+.month-list {
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+/* days style */
+li {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% / 7);
+    height: 100px;
+    background: rgb(205, 234, 255);
+    border: 1px solid white;
+    border-radius: 5px;
+
 }
 
 li.holiday {
-    color: red;
+    background: rgb(228, 104, 104);
+    color: #eee;
 }

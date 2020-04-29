@@ -110,7 +110,7 @@ function printMonth(template, date) {
         // imposta dati template
         var context = {
             class: 'day',
-            day: thisDate.format('DD MMMM'),
+            day: thisDate.format('DD - ddd'),
             completeDate: thisDate.format('YYYY-MM-DD')
         };
 
@@ -140,7 +140,7 @@ function printHoliday(date) {
 
                 if(listItem) {
                     listItem.addClass('holiday');
-                    listItem.text( listItem.text() + ' - ' + thisHoliday.name );
+                    listItem.text( listItem.text() + ' - ' +  thisHoliday.name );
                 }
             }
         },
