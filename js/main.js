@@ -1,13 +1,37 @@
 /**
  * WELCOME TO MOMENT JS
  */
+
+
+ /**
+  * Creare un calendario dinamico con le festività. 
+  * Partiamo dal gennaio 2018 dando la possibilità di cambiare mese, 
+  * gestendo il caso in cui l’API non possa ritornare festività. 
+  * Il calendario partirà da gennaio 2018 e si concluderà a dicembre 2018 (unici dati disponibili sull’API).
+  * 
+  * Ogni volta che cambio mese dovrò:
+  *  - Controllare se il mese è valido (per ovviare al problema che l’API non carichi holiday non del 2018)
+  *  - Controllare quanti giorni ha il mese scelto formando così una lista
+  *  - Chiedere all’api quali sono le festività per il mese scelto
+  *  - Evidenziare le festività nella lista
+  *
+  * BONUS OPZIONALE:
+  * Trasformare la lista precedente in un vero e proprio calendario, 
+  * generando una griglia che segua l’andamento dei giorni di un mese a scelta, 
+  * evidenziando le festività.`
+  * Creare dei bottoni che permettano di spostarsi di mese in mese,
+  * rigenerando ogni volta la griglia e le festività associate
+  */
 $(document).ready(function () {
     
     /**
      * SETUP
      */
 
-    // Punto di partenza
+    var prevBtn = $('.prev');
+    var nextBtn = $('.next');
+
+    // Punto di partenza data
     var baseMonth = moment('2018-01-01'); 
 
     // Init Hndlenars
@@ -19,6 +43,39 @@ $(document).ready(function () {
 
     // ottieni festività mese corrente
     printHoliday(baseMonth);
+
+    // mese successivo al click bottone
+    nextBtn.click(function(e){
+        baseMonth.add(1, 'month');
+        printMonth(template, baseMonth);
+        printHoliday(baseMonth);
+        
+        // messaggio errore dopo dic 2018
+        if (baseMonth.year() === 2019) {
+            alert('non puoi andare oltre')
+            // torno a dic 2018 e ristampo i giorni
+            baseMonth.subtract(1, 'month');
+            printMonth(template, baseMonth);
+            printHoliday(baseMonth);
+        }
+    });
+
+    // mese precedente al click bottone
+    prevBtn.click(function(){
+        baseMonth.subtract(1, 'month');
+        printMonth(template, baseMonth);
+        printHoliday(baseMonth);
+
+        // messaggio errore prima di gen 2018
+        if (baseMonth.year() === 2017) {
+            alert('non puoi andare oltre')
+            // torno a gen 2018 e ristampo i giorni
+            baseMonth.add(1, 'month');
+            printMonth(template, baseMonth);
+            printHoliday(baseMonth);
+        }
+    });
+    
 
 }); // <-- End doc ready
 
@@ -37,6 +94,9 @@ function printMonth(template, date) {
 
     // Imposta data attribute data visualizzata
     $('.month').attr('data-this-date',  date.format('YYYY-MM-DD'));
+    
+    // pulizia giorni mese precedenti
+    $('.month-list').children('li').remove();
 
     // genera giorni mese
     for (var i = 0; i < daysInMonth; i++) {
